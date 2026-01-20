@@ -14,6 +14,11 @@ An end-to-end backend system that analyzes emotions from YouTube videos using te
 ### 1. Install Dependencies
 
 ```bash
+
+py -3.11 -m venv venv
+venv\Scripts\activate
+#Verify Python Version
+
 pip install -r requirements.txt
 ```
 

@@ -23,25 +23,18 @@ class AudioEmotionDetector:
             if not os.path.exists(model_path):
                 raise FileNotFoundError(f"Model file not found at {model_path}. Please ensure the model file is placed in the MODELS directory.")
             
-            # Load model - Keras 2.15 can load .keras format models
-            # Use keras.models.load_model with safe_mode=False for .keras format
+            # Load model - Keras 3.0+ natively supports .keras format and Functional class
             try:
                 import keras
-                # Load with safe_mode=False to handle Keras 3.x format in .keras files
+                # Load with safe_mode=False to allow Functional class and other Keras 3 serialization
                 self.model = keras.models.load_model(model_path, compile=False, safe_mode=False)
-                logger.info("✅ Model loaded successfully!")
+                logger.info("✅ Model loaded successfully using Keras 3!")
             except Exception as load_error:
-                # If keras.models.load_model fails, try tf.keras
-                try:
-                    logger.warning(f"Keras load_model failed: {str(load_error)[:200]}")
-                    self.model = tf.keras.models.load_model(model_path, compile=False)
-                    logger.info("✅ Model loaded successfully (using tf.keras)!")
-                except Exception as tf_error:
-                    logger.error(f"Failed to load model: {str(load_error)[:300]}")
-                    raise FileNotFoundError(
-                        f"Could not load model at {model_path}. "
-                        f"Error: {str(load_error)[:300]}"
-                    )
+                logger.error(f"Failed to load model: {str(load_error)[:300]}")
+                raise FileNotFoundError(
+                    f"Could not load model at {model_path}. "
+                    f"Error: {str(load_error)[:300]}"
+                )
             
             # Define emotion labels exactly as in original code
             self.emotion_labels = ["neutral", "calm", "happy", "sad", "angry", "fear", "disgust", "surprise"]
