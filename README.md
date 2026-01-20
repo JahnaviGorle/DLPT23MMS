@@ -15,11 +15,18 @@ An end-to-end backend system that analyzes emotions from YouTube videos using te
 
 ```bash
 
+# Create virtual environment using Python 3.11
 py -3.11 -m venv venv
-venv\Scripts\activate
-#Verify Python Version
 
+# Activate virtual environment
+venv\Scripts\activate
+
+# Verify Python version
+python --version
+
+# Install dependencies
 pip install -r requirements.txt
+
 ```
 
 ### 2. Install FFmpeg (Windows)
